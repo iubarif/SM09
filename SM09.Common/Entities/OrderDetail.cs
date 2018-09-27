@@ -9,7 +9,7 @@ namespace SM09.Common.Entities
     {
         public int Id { get; set; }
         public Order OrderId { get; set; }
-        public Product ProductId { get; set; }
+        public Product Product { get; set; }
         public int Unit { get; set; }
         public Guid PriceId { get; set; }
     }

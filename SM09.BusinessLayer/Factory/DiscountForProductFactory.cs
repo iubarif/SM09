@@ -14,19 +14,19 @@ namespace SM09.BusinessLayer.Factory
             _discountProduct = discountProduct;
         }
 
-        public IProductDiscount ProductDiscount() {
+        //public IProductDiscount ProductDiscount() {
 
-            switch (_discountProduct.Type) {
-                case ProductDiscountType.type1:
-                    return null; // new IProductDiscount(); 
-                case ProductDiscountType.type2:
-                    return null; // new IProductDiscount(); 
-                case ProductDiscountType.type3:
-                    return null; // new IProductDiscount(); 
-                default:
-                    return null;
+        //    switch (_discountProduct.Type) {
+        //        case ProductDiscountType.type1:
+        //            return null; // new IProductDiscount(); 
+        //        case ProductDiscountType.type2:
+        //            return null; // new IProductDiscount(); 
+        //        case ProductDiscountType.type3:
+        //            return null; // new IProductDiscount(); 
+        //        default:
+        //            return null;
 
-            };
-        }
+        //    };
+        //}
     }
 }

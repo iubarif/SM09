@@ -1,12 +1,9 @@
-﻿using SM09.Common.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SM09.Common.Entities;
 
 namespace SM09.Common.Interface
 {
     public interface IProductDiscount
     {
-        double AfterDiscountPrice();
+        decimal AfterDiscountPrice(Order order);
     }
 }

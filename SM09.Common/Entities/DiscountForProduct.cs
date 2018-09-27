@@ -9,7 +9,7 @@ namespace SM09.Common.Entities
     {
         public int Id { get; set; }
         public Product Product { get; set; }
-        public ProductDiscountType Type { get; set; }
+        //public ProductDiscountType Type { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; } = true;
         public DateTime ActiveTill { get; set; }
