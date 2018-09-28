@@ -11,40 +11,60 @@ namespace SM09.Common.Entities.Discount
     /// Ex: Buy 3 pens and Get 2 for 50% discount
     /// If you want to give Y unit for Free, then set Z = 0;
     /// </summary>
-    public class BxGyFz : DiscountForProduct, IProductDiscount
+    public class BxGyFz : IProductDiscount
     {
-        private int _x;
-        private int _y;
-        private int _z;
-
-        public BxGyFz(int x, int y, int z)
+        
+        private readonly int x;
+        private readonly int y;        
+        private readonly int z;
+        
+        public BxGyFz(DiscountForProduct discountForProduct, int x, int y, int z)
         {
-            _x = x;
-            _y = y;
-            _z = z;
+            // this.discountForProduct = discountForProduct;
+            DiscountForProduct = discountForProduct;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
+
+        public DiscountForProduct DiscountForProduct { get; }
 
         public decimal AfterDiscountPrice(Order order)
         {
             var totalUnits = order.LineItems
-                .Where(o => o.Product.Id == this.Product.Id)
+                .Where(o => o.Product.Id == DiscountForProduct.ProductId)
                 .Select(ol => ol.Unit).Sum();
 
-            var p = this.Product.Price;
+            var p = DiscountForProduct.Product.Price;
 
-            var withDiscountUnitPrice = ((p * _x)  + ((p- (p * _z/100)) * _y))/(_x+_y);
-
-            decimal totalPrice = totalUnits * p;
-            decimal discountedPrice = 0m;
-            
-            while (totalUnits - (_x + _y) > -1)
+            if (z > 0 && z <= 100)
             {
-                discountedPrice += (_x + _y) * withDiscountUnitPrice;
-
-                totalUnits -= (_x + _y);
+                var withDiscountUnitPriceFormula = ((p * x) + ((p - (p * z / 100)) * y)) / (x + y);
+                return totalUnits * withDiscountUnitPriceFormula;
+            }
+            else {
+                // Means no discount provided
+                return totalUnits * p;
             }
 
-            return discountedPrice > 0 ? discountedPrice : totalPrice;            
+            //var withDiscountUnitPrice = ((p * x)  + ((p- (p * z/100)) * y))/(x+y);
+
+            //decimal totalPrice = totalUnits * p;
+            //decimal discountedPrice = 0m;
+            
+            //while (totalUnits - (x + y) > -1)
+            //{
+            //    discountedPrice += (x + y) * withDiscountUnitPrice;
+
+            //    totalUnits -= (x + y);
+            //}
+
+            //if (totalUnits > 0)
+            //{
+            //    discountedPrice += totalUnits * p;
+            //}
+
+            //return discountedPrice > 0 ? discountedPrice : totalPrice;            
         }
     }
 }

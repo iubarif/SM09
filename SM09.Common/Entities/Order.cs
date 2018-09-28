@@ -10,5 +10,10 @@ namespace SM09.Common.Entities
         public int Id { get; set; }
         public string Note { get; set; }
         public List<OrderDetail> LineItems { get; set; }
+
+        public Order()
+        {
+            LineItems = new List<OrderDetail>();
+        }
     }
 }

@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SM09.Common.Entities;
 
 namespace SM09.DataAccess
 {
     public class DataContext: DbContext
     {
+        public DataContext(IConfiguration config) :base()
+        {
+
+        }
+
         public virtual void Save()
         {
             base.SaveChanges();
