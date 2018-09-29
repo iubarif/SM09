@@ -31,7 +31,7 @@ namespace XUnitTestProject
 
             var order = new Order() { Id = 1 };
 
-            var lineItem = new OrderDetail() { Id = 1, Product = product, ProductId = product.Id,PriceId = priceId,OrderId = order.Id, Order = order, Unit = 4};
+            var lineItem = new LineItem() { Id = 1, Product = product, ProductId = product.Id,PriceId = priceId,OrderId = order.Id, Order = order, Unit = 4};
             order.LineItems.Add(lineItem);
 
             var discountedPrice = discount.AfterDiscountPrice(order);

@@ -1,7 +1,5 @@
 ﻿using SM09.Common.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SM09.Common.Interface
 {
@@ -11,7 +9,6 @@ namespace SM09.Common.Interface
         void Update(BaseEntity entity);
         void Delete(BaseEntity entity);
         IEnumerable<BaseEntity> GetAll();
-        // IUnitOfWork UnitOfWork { get; }
-        void SaveChanges();
+        BaseEntity Get(int Id);        
     }
 }

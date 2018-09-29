@@ -8,7 +8,6 @@ namespace SM09.Common.Entities
 {
     public class DiscountForProduct : BaseEntity
     {
-        public int Id { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public string Name { get; set; }

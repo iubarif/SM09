@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SM09.Common.Interface
 {
-    public interface IOrderDetailManager : IActionManager
+    public interface ILineItemManager : IActionManager
     {
     }
 }

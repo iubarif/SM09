@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\ActionManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SM009.DataAccess\SM09.DataAccess.csproj" />
     <ProjectReference Include="..\SM09.Common\SM09.Common.csproj" />
   </ItemGroup>

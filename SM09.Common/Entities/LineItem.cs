@@ -5,9 +5,8 @@ using System.Text;
 
 namespace SM09.Common.Entities
 {
-    public class OrderDetail: BaseEntity
+    public class LineItem: BaseEntity
     {
-        public int Id { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public int ProductId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SM09.Common.Core;
 using SM09.DataAccess.Core;
 using System;
 using System.Collections.Generic;
@@ -9,79 +10,41 @@ using System.Text;
 
 namespace SM09.DataAccess
 {
-    public class Repository : IRepository
+    public abstract class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        DataContext _context;
-        public Repository(IDbFactory dbFactory)
+        private readonly DataContext context;
+        protected DbSet<T> objectSet;
+
+        public Repository(DataContext context)
         {
-            _context = dbFactory.GetDataContext;
+            this.context = context;
+            objectSet = this.context.Set<T>();
         }
 
-        public T Single<T>(Expression<Func<T, bool>> expression) where T : class
+        public virtual void Add(T entity)
         {
-            return All<T>().FirstOrDefault(expression);
+            objectSet.Add(entity);
+            
         }
 
-        public IQueryable<T> All<T>() where T : class
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().AsQueryable();
+            return objectSet.Where(predicate);
         }
 
-        public virtual IEnumerable<T> Filter<T>(Expression<Func<T, bool>> predicate) where T : class
+        public T Get(int Id)
         {
-            return _context.Set<T>().Where<T>(predicate).AsQueryable<T>();
+            return objectSet.AsNoTracking().FirstOrDefault(e => e.Id == Id);
         }
 
-        public virtual IEnumerable<T> Filter<T>(Expression<Func<T, bool>> filter, out int total, int index = 0, int size = 50) where T : class
+        public IEnumerable<T> GetAll()
         {
-            int skipCount = index * size;
-            var _resetSet = filter != null ? _context.Set<T>().Where<T>(filter).AsQueryable() : _context.Set<T>().AsQueryable();
-            _resetSet = skipCount == 0 ? _resetSet.Take(size) : _resetSet.Skip(skipCount).Take(size);
-            total = _resetSet.Count();
-            return _resetSet.AsQueryable();
+            return objectSet.AsNoTracking().ToList();
         }
 
-        public virtual void Create<T>(T TObject) where T : class
+        public void Update(T entity)
         {
-            var newEntry = _context.Set<T>().Add(TObject);
+            context.Entry(entity).State = EntityState.Modified;
         }
-
-        public virtual void Delete<T>(T TObject) where T : class
-        {
-            _context.Set<T>().Remove(TObject);
-        }
-
-        public virtual void Update<T>(T TObject) where T : class
-        {
-            try
-            {
-                var entry = _context.Entry(TObject);
-                _context.Set<T>().Attach(TObject);
-                entry.State = EntityState.Modified;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public virtual void Delete<T>(Expression<Func<T, bool>> predicate) where T : class
-        {
-            var objects = Filter<T>(predicate);
-            foreach (var obj in objects)
-                _context.Set<T>().Remove(obj);
-        }
-        public bool Contains<T>(Expression<Func<T, bool>> predicate) where T : class
-        {
-            return _context.Set<T>().Count<T>(predicate) > 0;
-        }
-        public virtual T Find<T>(Expression<Func<T, bool>> predicate) where T : class
-        {
-            return _context.Set<T>().FirstOrDefault<T>(predicate);
-        }
-        public virtual void ExecuteProcedure(String procedureCommand, params SqlParameter[] sqlParams)
-        {
-            // _context.Database.ExecuteSqlCommand(procedureCommand, sqlParams);
-        }
-
     }
 }

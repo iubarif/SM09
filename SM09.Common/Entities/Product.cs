@@ -7,7 +7,6 @@ namespace SM09.Common.Entities
 {
     public class Product: BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int MOUId { get; set; }
         public MeasureOfUnit MOU { get; set; }

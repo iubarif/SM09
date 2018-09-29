@@ -1,4 +1,5 @@
 ﻿using SM09.DataAccess.Core;
+using SM09.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,32 +8,41 @@ namespace SM09.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IDbFactory _dbFactory;
+        private readonly IDbFactory dbFactory;
+        private readonly DataContext dataContext;
+
+        public CategoryRepository Categories { get; private set; }
+        public MeasureOfUnitesRepository MOUs { get; private set; }
+        public ProductRepository Products { get; private set; }
+        public OrderRepository Orders { get; private set; }
+        public LineItemRepository LineItems { get; private set; }
+        public DiscountForProductRepository DiscountForProducts { get; private set; }
+        public BxGyFzRepository BxGyFzDiscounts { get; private set; }
+        public BxGzRepository BxGzDiscounts { get; private set; }
 
         public UnitOfWork(IDbFactory dbFactory)
         {
-            _dbFactory = dbFactory;
-        }
+            this.dbFactory = dbFactory;
+            this.dataContext = dbFactory.GetDataContext;
 
-
-        public void BeginTransaction()
-        {
-            _dbFactory.GetDataContext.Database.BeginTransaction();
-        }
-
-        public void RollbackTransaction()
-        {
-            _dbFactory.GetDataContext.Database.RollbackTransaction();
-        }
-
-        public void CommitTransaction()
-        {
-            _dbFactory.GetDataContext.Database.CommitTransaction();
+            Categories = new CategoryRepository(this.dataContext);
+            MOUs = new MeasureOfUnitesRepository(this.dataContext);
+            Products = new ProductRepository(this.dataContext);
+            Orders = new OrderRepository(this.dataContext);
+            LineItems = new LineItemRepository(this.dataContext);
+            DiscountForProducts = new DiscountForProductRepository(this.dataContext);
+            BxGyFzDiscounts = new BxGyFzRepository(this.dataContext);
+            BxGzDiscounts = new BxGzRepository(this.dataContext);
         }
 
         public void SaveChanges()
         {
-            _dbFactory.GetDataContext.Save();
+            dataContext.Save();
+        }
+
+        public void Dispose()
+        {
+            dataContext.Dispose();
         }
     }
 }

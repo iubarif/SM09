@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using SM09.Common.Core;
 
 namespace SM09.Common.Entities.Discount
 {
@@ -11,23 +12,21 @@ namespace SM09.Common.Entities.Discount
     /// Ex: Buy 3 pens and Get 2 for 50% discount
     /// If you want to give Y unit for Free, then set Z = 0;
     /// </summary>
-    public class BxGyFz : IProductDiscount
+    public class BxGyFz : BaseEntity, IProductDiscount
     {
-        
+        public DiscountForProduct DiscountForProduct { get; }
+
         private readonly int x;
         private readonly int y;        
         private readonly int z;
         
         public BxGyFz(DiscountForProduct discountForProduct, int x, int y, int z)
         {
-            // this.discountForProduct = discountForProduct;
             DiscountForProduct = discountForProduct;
             this.x = x;
             this.y = y;
             this.z = z;
         }
-
-        public DiscountForProduct DiscountForProduct { get; }
 
         public decimal AfterDiscountPrice(Order order)
         {

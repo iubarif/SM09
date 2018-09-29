@@ -7,47 +7,49 @@ using System.Collections.Generic;
 
 namespace SM09.BusinessLayer.Services
 {
-    public class CategoryManager : ICategoryManager
+    public class MeasureOfUnitManager : IMeasureOfUnitManager
     {
         IUnitOfWork unitOfWork;
 
-        public CategoryManager(IUnitOfWork unitOfWork)
+        public MeasureOfUnitManager(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
         public void Create(BaseEntity entity)
         {
-            unitOfWork.Categories.Add(ConvertBaseEntity(entity));
+            unitOfWork.MOUs.Add(ConvertBaseEntity(entity));
             unitOfWork.SaveChanges();
         }
 
         public void Delete(BaseEntity entity)
         {
-            Category category = ConvertBaseEntity(entity);
+            MeasureOfUnit category = ConvertBaseEntity(entity);
             category.Active = false;
-            unitOfWork.Categories.Update(category);
+            unitOfWork.MOUs.Update(category);
+            unitOfWork.SaveChanges();
         }
 
         public BaseEntity Get(int Id)
         {
-            return unitOfWork.Categories.Get(Id);
+            return unitOfWork.MOUs.Get(Id);
         }
 
         public IEnumerable<BaseEntity> GetAll()
         {
-            return unitOfWork.Categories.GetAll();
+            return unitOfWork.MOUs.GetAll();
         }
 
-       
+
         public void Update(BaseEntity entity)
         {
-            unitOfWork.Categories.Update(ConvertBaseEntity(entity));
+            unitOfWork.MOUs.Update(ConvertBaseEntity(entity));
             unitOfWork.SaveChanges();
         }
 
-        private Category ConvertBaseEntity(BaseEntity entity) {
-            return (Category)entity;
+        private MeasureOfUnit ConvertBaseEntity(BaseEntity entity)
+        {
+            return (MeasureOfUnit)entity;
         }
     }
 }

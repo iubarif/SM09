@@ -8,8 +8,4 @@
     <Compile Remove="Entities\ProductDiscountType.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>
