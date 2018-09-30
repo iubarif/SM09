@@ -7,6 +7,6 @@ namespace SM09.Common.Interface
 {
     public interface IOrderManager : IActionManager
     {
-        DTOOrder PrintOrder();
+        DTOOrder PrintInvoice(int Id);
     }
 }

@@ -15,15 +15,15 @@ namespace SM09.Common.Entities
         public DateTime ActiveTill { get; set; }
         public IProductDiscount ProductDiscount { get; set; }
 
-        //public DiscountForProduct(DiscountForProduct discount)
-        //{
-        //    this.Id = discount.Id;
-        //    this.ProductId = discount.ProductId;
-        //    this.Product = discount.Product;
-        //    this.Name = discount.Name;
-        //    this.Active = discount.Active;
-        //    ActiveTill = discount.ActiveTill;
-        //}
+        public DiscountForProduct(DiscountForProduct discount)
+        {
+            this.Id = discount.Id;
+            this.ProductId = discount.ProductId;
+            this.Product = discount.Product;
+            this.Name = discount.Name;
+            this.Active = discount.Active;
+            ActiveTill = discount.ActiveTill;
+        }
 
     }
 }

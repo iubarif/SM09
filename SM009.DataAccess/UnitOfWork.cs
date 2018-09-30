@@ -18,7 +18,8 @@ namespace SM09.DataAccess
         public LineItemRepository LineItems { get; private set; }
         public DiscountForProductRepository DiscountForProducts { get; private set; }
         public BxGyFzRepository BxGyFzDiscounts { get; private set; }
-        public BxGzRepository BxGzDiscounts { get; private set; }
+        // public BxGzRepository BxGzDiscounts { get; private set; }
+        public InvoiceDiscountRepository InvoiceDiscounts { get; set; }
 
         public UnitOfWork(IDbFactory dbFactory)
         {
@@ -32,7 +33,8 @@ namespace SM09.DataAccess
             LineItems = new LineItemRepository(this.dataContext);
             DiscountForProducts = new DiscountForProductRepository(this.dataContext);
             BxGyFzDiscounts = new BxGyFzRepository(this.dataContext);
-            BxGzDiscounts = new BxGzRepository(this.dataContext);
+            //BxGzDiscounts = new BxGzRepository(this.dataContext);
+            InvoiceDiscounts = new InvoiceDiscountRepository(this.dataContext);
         }
 
         public void SaveChanges()

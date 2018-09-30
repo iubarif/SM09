@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\Discount\BxGz.cs" />
     <Compile Remove="Entities\ProductDiscountType.cs" />
   </ItemGroup>
 

@@ -15,6 +15,8 @@ namespace SM09.Common.Entities
         public decimal Price { get; set; }
         public Guid PriceId { get; set; }
         public bool Active { get; set; } = true;
+        public List<DiscountForProduct> Discounts { get; set; }
+
 
     }
 }

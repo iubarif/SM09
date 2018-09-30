@@ -14,7 +14,8 @@ namespace SM09.DataAccess.Core
         LineItemRepository LineItems { get; }
         DiscountForProductRepository DiscountForProducts { get; }
         BxGyFzRepository BxGyFzDiscounts { get; }
-        BxGzRepository BxGzDiscounts { get; }
+        //BxGzRepository BxGzDiscounts { get; }
+        InvoiceDiscountRepository InvoiceDiscounts { get; }
 
         void SaveChanges();
     }
