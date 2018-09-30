@@ -11,7 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SM09.BusinessLayer.Factory;
+using SM09.BusinessLayer.Services;
+using SM09.Common.Interface;
 using SM09.DataAccess;
+using SM09.DataAccess.Core;
 
 namespace SM09.Api
 {
@@ -29,6 +33,13 @@ namespace SM09.Api
         {
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // SM09
+            services.AddScoped<IDbFactory, DbFactory>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IProductDiscountFactory, ProductDiscountFactory>();
+            services.AddScoped<IInvoiceDiscountManager, InvoiceDiscountManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

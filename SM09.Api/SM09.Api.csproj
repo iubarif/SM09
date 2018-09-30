@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SM009.DataAccess\SM09.DataAccess.csproj" />
+    <ProjectReference Include="..\SM09.BusinessLayer\SM09.BusinessLayer.csproj" />
   </ItemGroup>
 
 </Project>
