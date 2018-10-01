@@ -20,11 +20,14 @@ namespace SM09.BusinessLayer.Services
         }
 
         // The appropriate discount object will be selected by a factory class
-        public decimal CalculateDiscount(Order order, Product product)
+        public decimal CalculateDiscount(LineItem lineItem)//(Order order, Product product)
         {
-            var totalUnits = order.LineItems
-                .Where(o => o.Product.Id == product.Id)
-                .Select(ol => ol.Unit).Sum();
+            //var totalUnits = order.LineItems
+            //    .Where(o => o.Product.Id == product.Id)
+            //    .Select(ol => ol.Unit).Sum();
+
+            var totalUnits = lineItem.Unit;
+            var product = lineItem.Product;
 
             var unitPrice = product.Price;
 

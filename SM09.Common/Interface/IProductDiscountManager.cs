@@ -7,6 +7,6 @@ namespace SM09.Common.Interface
 {
     public interface IProductDiscountManager// : IActionManager<IProductDiscount>
     {
-        decimal CalculateDiscount(Order order,Product product);
+        decimal CalculateDiscount(LineItem lineItem);
     }
 }

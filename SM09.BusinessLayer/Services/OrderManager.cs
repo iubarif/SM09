@@ -81,7 +81,7 @@ namespace SM09.BusinessLayer.Services
                 else
                     invoiceLine.Discount = prodDiscountFactory
                         .GetProductDiscountObject(dicountObject)
-                        .CalculateDiscount(order,prod);
+                        .CalculateDiscount(line);
 
                 invoiceLine.LineItemTotal = (line.Unit * prod.Price) - invoiceLine.Discount;
                 invoice.LineItems.Add(invoiceLine);
