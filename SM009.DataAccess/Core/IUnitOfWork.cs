@@ -7,7 +7,7 @@ namespace SM09.DataAccess.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-        CategoryRepository Categories { get; }
+        CategoryRepository Categories { get; set; }
         MeasureOfUnitesRepository MOUs { get; }
         ProductRepository Products { get; }
         OrderRepository Orders { get; }
@@ -18,5 +18,6 @@ namespace SM09.DataAccess.Core
         InvoiceDiscountRepository InvoiceDiscounts { get; }
 
         void SaveChanges();
+        DataContext GetDataContext();
     }
 }

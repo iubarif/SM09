@@ -16,38 +16,39 @@ namespace SM09.BusinessLayer.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Create(BaseEntity entity)
+        public void Create(Category entity)
         {
-            unitOfWork.Categories.Add(ConvertBaseEntity(entity));
+            unitOfWork.Categories.Add(entity);
             unitOfWork.SaveChanges();
         }
 
-        public void Delete(BaseEntity entity)
+        public void Delete(Category entity)
         {
-            Category category = ConvertBaseEntity(entity);
-            category.Active = false;
-            unitOfWork.Categories.Update(category);
+            entity.Active = false;
+            unitOfWork.Categories.Update(entity);
         }
 
-        public BaseEntity Get(int Id)
+        public void Delete<T>(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Category Get(int Id)
         {
             return unitOfWork.Categories.Get(Id);
         }
 
-        public IEnumerable<BaseEntity> GetAll()
+        public IEnumerable<Category> GetAll()
         {
             return unitOfWork.Categories.GetAll();
         }
 
-       
-        public void Update(BaseEntity entity)
+        public void Update(Category entity)
         {
-            unitOfWork.Categories.Update(ConvertBaseEntity(entity));
+            unitOfWork.Categories.Update(entity);
             unitOfWork.SaveChanges();
         }
 
-        private Category ConvertBaseEntity(BaseEntity entity) {
-            return (Category)entity;
-        }
+       
     }
 }

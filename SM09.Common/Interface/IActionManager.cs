@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace SM09.Common.Interface
 {
-    public interface IActionManager
+    public interface IActionManager<T> where T : BaseEntity 
     {
-        void Create(BaseEntity entity);
-        void Update(BaseEntity entity);
-        void Delete(BaseEntity entity);
-        IEnumerable<BaseEntity> GetAll();
-        BaseEntity Get(int Id);        
+        void Create(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+        IEnumerable<T> GetAll();
+        T Get(int Id);        
     }
 }

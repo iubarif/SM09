@@ -9,9 +9,9 @@ namespace SM09.DataAccess
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbFactory dbFactory;
-        private readonly DataContext dataContext;
+        public readonly DataContext dataContext;
 
-        public CategoryRepository Categories { get; private set; }
+        public CategoryRepository Categories { get; set; }
         public MeasureOfUnitesRepository MOUs { get; private set; }
         public ProductRepository Products { get; private set; }
         public OrderRepository Orders { get; private set; }
@@ -45,6 +45,11 @@ namespace SM09.DataAccess
         public void Dispose()
         {
             dataContext.Dispose();
+        }
+
+        public DataContext GetDataContext()
+        {
+            return dataContext;
         }
     }
 }

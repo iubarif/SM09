@@ -16,25 +16,24 @@ namespace SM09.BusinessLayer.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Create(BaseEntity entity)
+        public void Create(Product entity)
         {
-            unitOfWork.Products.Add(ConvertBaseEntity(entity));
+            unitOfWork.Products.Add(entity);
             unitOfWork.SaveChanges();
         }
 
-        public void Delete(BaseEntity entity)
+        public void Delete(Product entity)
         {
-            Product product = ConvertBaseEntity(entity);
-            product.Active = false;
-            unitOfWork.Products.Update(product);
+            entity.Active = false;
+            unitOfWork.Products.Update(entity);
         }
 
-        public BaseEntity Get(int Id)
+        public Product Get(int Id)
         {
             return unitOfWork.Products.Get(Id);
         }
 
-        public IEnumerable<BaseEntity> GetAll()
+        public IEnumerable<Product> GetAll()
         {
             return unitOfWork.Products.GetAll();
         }
@@ -44,15 +43,10 @@ namespace SM09.BusinessLayer.Services
             unitOfWork.SaveChanges();
         }
 
-        public void Update(BaseEntity entity)
+        public void Update(Product entity)
         {
-            unitOfWork.Products.Update(ConvertBaseEntity(entity));
+            unitOfWork.Products.Update(entity);
             unitOfWork.SaveChanges();
-        }
-
-        private Product ConvertBaseEntity(BaseEntity entity)
-        {
-            return (Product)entity;
         }
     }
 }

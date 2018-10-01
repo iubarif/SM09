@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SM09.Common.Interface
 {
-    public interface IProductDiscountManager : IActionManager
+    public interface IProductDiscountManager// : IActionManager<IProductDiscount>
     {
         decimal CalculateDiscount(Order order,Product product);
     }

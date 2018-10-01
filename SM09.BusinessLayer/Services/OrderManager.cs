@@ -25,10 +25,8 @@ namespace SM09.BusinessLayer.Services
             this.invoiceDiscountManager = invoiceDiscountManager;
             this.unitOfWork = unitOfWork;
         }
-        public void Create(BaseEntity entity)
+        public void Create(Order order)
         {
-            var order = ConvertBaseEntity(entity);
-
             if (order.LineItems.Count == 0)
                 throw new Exception("Not a valid order. No line items found");
 
@@ -38,17 +36,17 @@ namespace SM09.BusinessLayer.Services
             
         }
 
-        public void Delete(BaseEntity entity)
+        public void Delete(Order entity)
         {
             throw new NotImplementedException();
         }
 
-        public BaseEntity Get(int Id)
+        public Order Get(int Id)
         {
             return unitOfWork.Orders.Get(Id);
         }
 
-        public IEnumerable<BaseEntity> GetAll()
+        public IEnumerable<Order> GetAll()
         {
             return unitOfWork.Orders.GetAll();
         }
@@ -64,9 +62,7 @@ namespace SM09.BusinessLayer.Services
             invoice.OrderId = order.Id;
             invoice.OrderDate = order.CreatedOn;
 
-
             var orderLines = order.LineItems;
-            // List<DTOLineItem> lineItems= new List<DTOLineItem>();
 
             foreach (var line in orderLines) {
                 var prod = line.Product;
@@ -76,16 +72,16 @@ namespace SM09.BusinessLayer.Services
                 invoiceLine.TotalUnites = line.Unit;
                 invoiceLine.UnitPrice = prod.Price;
 
-                var dicountObject = prod.Discounts.Where(d => d.Active == true && d.ActiveTill <= DateTime.Now).FirstOrDefault();
-
-                //var discountObject =  unitOfWork.BxGyFzDiscounts.Find( dis => dis.DiscountForProduct.ProductId == prod.Id 
-                //    && dis.DiscountForProduct.Active == true 
-                //    && dis.DiscountForProduct.ActiveTill <= DateTime.Now).FirstOrDefault();
+                var dicountObject = prod.Discounts
+                    .Where(d => d.Active == true && d.ActiveTill <= DateTime.Now)
+                    .FirstOrDefault();
 
                 if (dicountObject == null)
                     invoiceLine.Discount = 0;
                 else
-                    invoiceLine.Discount = prodDiscountFactory.GetProductDiscountObject(dicountObject).CalculateDiscount(order,prod);
+                    invoiceLine.Discount = prodDiscountFactory
+                        .GetProductDiscountObject(dicountObject)
+                        .CalculateDiscount(order,prod);
 
                 invoiceLine.LineItemTotal = (line.Unit * prod.Price) - invoiceLine.Discount;
                 invoice.LineItems.Add(invoiceLine);
@@ -93,7 +89,9 @@ namespace SM09.BusinessLayer.Services
 
             invoice.TotalWithoutDiscount = invoice.LineItems.Select(l => l.LineItemTotal).Sum();
 
-            var activeDiscount = unitOfWork.InvoiceDiscounts.Find(id => id.Active == true && id.ActiveTill <= DateTime.Now).FirstOrDefault();
+            var activeDiscount = unitOfWork.InvoiceDiscounts
+                .Find(id => id.Active == true && id.ActiveTill <= DateTime.Now)
+                .FirstOrDefault();
 
             if (activeDiscount == null)
             {
@@ -102,7 +100,9 @@ namespace SM09.BusinessLayer.Services
             }
             else
             {
-                invoice.InvoiceDiscount = invoiceDiscountManager.CalculateInvoiceDiscount(invoice.TotalWithoutDiscount, activeDiscount);
+                invoice.InvoiceDiscount = invoiceDiscountManager
+                    .CalculateInvoiceDiscount(invoice.TotalWithoutDiscount, activeDiscount);
+
                 invoice.Total = invoice.TotalWithoutDiscount - invoice.InvoiceDiscount;
             }
 
@@ -110,14 +110,10 @@ namespace SM09.BusinessLayer.Services
             return invoice;
         }
 
-        public void Update(BaseEntity entity)
+        public void Update(Order entity)
         {
-            unitOfWork.Orders.Update(ConvertBaseEntity(entity));
+            unitOfWork.Orders.Update(entity);
             unitOfWork.SaveChanges();
-        }
-        private Order ConvertBaseEntity(BaseEntity entity)
-        {
-            return (Order)entity;
-        }
+        }        
     }
 }
